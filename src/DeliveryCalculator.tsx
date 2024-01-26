@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 const DeliveryCalculator = () => {
 
   const [cartValue, setCartValue] = useState<string>('');
-  const [deliveryDistance, setDeliveryDistance] = useState<number>(0);
-  const [numberOfItems, setNumberOfItems] = useState<number>(0);
+  const [deliveryDistance, setDeliveryDistance] = useState<string>('');
+  const [numberOfItems, setNumberOfItems] = useState<string>('');
   const [orderTime, setOrderTime] = useState<Date>(new Date());
   const [deliveryCost, setDeliveryCost] = useState<number>(0);
 
@@ -21,27 +21,50 @@ const DeliveryCalculator = () => {
     
     // If the input starts with a dot or comma, prepend a zero
     newValue = newValue.replace(/^[.,]/, '0$&');
-    console.log("after3: ", newValue);
-    
-    // Allow only one dot or comma
-    const dotIndex = newValue.indexOf('.');
-    const commaIndex = newValue.indexOf(',');
-    
-    if (dotIndex !== -1 && commaIndex !== -1) {
-      // Both dot and comma are present, keep the one that appears first
-      newValue = dotIndex < commaIndex ? newValue.replace(',', '') : newValue.replace('.', '');
-      console.log("after dot&comma test: ", newValue);
-    }
     
     // Allow only two digits after the dot or comma
     newValue = newValue.replace(/([.,]\d{2})\d+/g, '$1');
-    console.log("after 2 digits test: ", newValue);
     
     // Validate as a number and set the state
     if (!isNaN(Number(newValue))) {
       setCartValue(newValue);
-      console.log("isNaN validation: ", newValue);
-    } else console.log("isNaN validation failed: ", newValue);
+    }
+  };
+
+  const handleDistanceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let newValue: string = event.target.value;
+  
+    // Remove leading zeros
+    newValue = newValue.replace(/^0+/, '');
+  
+    // If the value is an empty string, allow it
+    if (newValue === '') {
+      setDeliveryDistance(newValue);
+      return;
+    }
+  
+    // Validate as a positive integer and set the state
+    if (/^\d+$/.test(newValue)) {
+      setDeliveryDistance(newValue);
+    }
+  };
+
+  const handleNumberOfItems = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let newValue: string = event.target.value;
+  
+    // Remove leading zeros
+    newValue = newValue.replace(/^0+/, '');
+  
+    // If the value is an empty string, allow it
+    if (newValue === '') {
+      setNumberOfItems(newValue);
+      return;
+    }
+  
+    // Validate as a positive integer and set the state
+    if (/^\d+$/.test(newValue)) {
+      setNumberOfItems(newValue);
+    }
   };
 
   const buttonHandler = () => {
@@ -51,8 +74,8 @@ const DeliveryCalculator = () => {
     const orderTime = document.getElementById('orderTime') as HTMLInputElement;
 
     setCartValue(cartValue.value);
-    setDeliveryDistance(Number(deliveryDistance.value));
-    setNumberOfItems(Number(numberOfItems.value));
+    setDeliveryDistance(deliveryDistance.value);
+    setNumberOfItems(numberOfItems.value);
     setOrderTime(new Date(orderTime.value));
 
   }
@@ -95,10 +118,12 @@ const DeliveryCalculator = () => {
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
           <input
-            type="number"
+            type="text"
             id="deliveryDistance"
             data-test-id="deliveryDistance"
             className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            onChange={handleDistanceChange}
+            value={deliveryDistance}
             placeholder="0"
           />
           <div className="absolute inset-y-0 right-0 flex items-center">
@@ -113,10 +138,12 @@ const DeliveryCalculator = () => {
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
           <input
-            type="number"
+            type="text"
             id="numberOfItems"
             data-test-id="numberOfItems"
             className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            onChange={handleNumberOfItems}
+            value={numberOfItems}
             placeholder="0"
           />
         </div>

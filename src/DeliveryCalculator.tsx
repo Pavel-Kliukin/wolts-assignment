@@ -6,7 +6,7 @@ const DeliveryCalculator = () => {
   const [deliveryDistance, setDeliveryDistance] = useState<string>('');
   const [numberOfItems, setNumberOfItems] = useState<string>('');
   const [orderTime, setOrderTime] = useState<Date>(new Date());
-  const [deliveryCost, setDeliveryCost] = useState<number>(0);
+  const [deliveryCost, setDeliveryCost] = useState<number | null>(0);
 
 
   const handleCartValueInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,29 +67,63 @@ const DeliveryCalculator = () => {
     }
   };
 
-  const buttonHandler = () => {
-    const cartValue = document.getElementById('cartValue') as HTMLInputElement;
-    const deliveryDistance = document.getElementById('deliveryDistance') as HTMLInputElement;
-    const numberOfItems = document.getElementById('numberOfItems') as HTMLInputElement;
-    const orderTime = document.getElementById('orderTime') as HTMLInputElement;
+  const handleOrderTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let newValue: string = event.target.value;
+    if (newValue) setOrderTime(new Date(newValue));
 
-    setCartValue(cartValue.value);
-    setDeliveryDistance(deliveryDistance.value);
-    setNumberOfItems(numberOfItems.value);
-    setOrderTime(new Date(orderTime.value));
+  };
+
+  const buttonHandler = () => {
+
+    let newDeliveryCost: number = 0;
+
+    // Add delivery cost based on cart value
+    if (Number(cartValue) < 10) {
+      newDeliveryCost = 10 - Number(cartValue);
+    }
+
+    // Add delivery cost based on distance
+    const distance: number = Number(deliveryDistance);
+    newDeliveryCost += 2
+    if (distance > 1000) {
+      newDeliveryCost += 1 * Math.ceil((distance - 1000) / 500);
+    }
+
+    // Add delivery cost based on number of items
+    const items: number = Number(numberOfItems);
+    if ( items > 4) {
+      newDeliveryCost += (items - 4) * 0.50;
+    }
+    if ( items > 12) {
+      newDeliveryCost += 1.20;
+    }
+
+    // Add delivery cost based on order time
+    if (orderTime.getDay() === 5 && orderTime.getHours() >= 15 && orderTime.getHours() < 19) {
+      newDeliveryCost *= 1.2;
+    }
+
+    // Correct the delivery cost based on other confitions
+    if (newDeliveryCost > 15) {
+      newDeliveryCost = 15;
+    }
+    if (Number(cartValue) >= 200) {
+      newDeliveryCost = 0;
+    }
+
+    setDeliveryCost(newDeliveryCost);
 
   }
 
-
-  // useEffect(() => {
-  //   const deliveryCost = (cartValue * 10000000) + (deliveryDistance * 100) + (numberOfItems)
-  //   setDeliveryCost(deliveryCost);
+  // Reset delivery cost to null when any of the input values change
+  useEffect(() => {
+    setDeliveryCost(null)
     
-  // }, [cartValue, deliveryDistance, numberOfItems, orderTime])
+  }, [cartValue, deliveryDistance, numberOfItems, orderTime])
 
   return (
-    <div className='pl-12 w-[400px] h-[600px] border-4 border-zinc-100 rounded-lg flex flex-col justify-center items-start'>
-      <div>
+    <div className='w-[400px] h-[600px] border-4 border-zinc-100 rounded-lg flex flex-col justify-center items-start'>
+      <div className='ml-12'>
         <label htmlFor="cartValue" className="block text-sm font-medium leading-6 text-gray-900">
           Cart value
         </label>
@@ -112,9 +146,9 @@ const DeliveryCalculator = () => {
         </div>
       </div>
       
-      <div className='mt-5'>
+      <div className='mt-5 ml-12'>
         <label htmlFor="deliveryDistance" className="block text-sm font-medium leading-6 text-gray-900">
-          Delivery Distance
+          Delivery distance
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
           <input
@@ -132,7 +166,7 @@ const DeliveryCalculator = () => {
         </div>
       </div>
       
-      <div className='mt-5'>
+      <div className='mt-5 ml-12'>
         <label htmlFor="numberOfItems" className="block text-sm font-medium leading-6 text-gray-900">
           Number of items
         </label>
@@ -149,7 +183,7 @@ const DeliveryCalculator = () => {
         </div>
       </div>
       
-      <div className='mt-5'>
+      <div className='mt-5 ml-12'>
         <label htmlFor="orderTime" className="block text-sm font-medium leading-6 text-gray-900">
           Time
         </label>
@@ -158,13 +192,14 @@ const DeliveryCalculator = () => {
             type="datetime-local"
             id="orderTime"
             data-test-id="orderTime"
+            onChange={handleOrderTimeChange}
             className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
         </div>
       </div>
 
       <button type="button" 
-        className="mt-14 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="mt-14 ml-12 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         onClick={buttonHandler}>
         <svg className="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 640 512">
           {/* Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. */}
@@ -173,10 +208,12 @@ const DeliveryCalculator = () => {
         Calculate delivery
       </button>
 
-      <div className='mt-8 flex items-center'>
-        <h2 className='text-xl font-semibold'>Delivery cost:</h2>
-        <div className='ml-2 w-20 h-9 bg-zinc-100 rounded-md flex justify-center items-center'>{deliveryCost}</div>
-        <div className='ml-1'>EUR</div>
+      <div className='w-full h-16 mt-8 pl-12 bg-blue-600 flex items-center'>
+        <h2 className='text-xl font-semibold text-white'>Delivery cost:</h2>
+        <div
+          data-test-id="fee" 
+          className='ml-2 w-20 h-9 bg-zinc-100 rounded-md flex justify-center items-center text-xl font-semibold'>{deliveryCost?.toFixed(2)}</div>
+        <div className='ml-2 text-xl text-white'>EUR</div>
       </div>
       
     </div>

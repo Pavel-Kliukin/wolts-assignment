@@ -122,8 +122,8 @@ const DeliveryCalculator = () => {
   }, [cartValue, deliveryDistance, numberOfItems, orderTime])
 
   return (
-    <div className='w-[400px] h-[600px] border-4 border-zinc-100 rounded-lg flex flex-col justify-center items-start'>
-      <div className='ml-12'>
+    <div className='w-[270px] h-[500px] sm:w-[400px] sm:h-[600px] border-4 border-zinc-100 rounded-lg flex flex-col justify-center items-start'>
+      <div className='ml-12 max-sm:ml-6 max-sm:mr-6'>
         <label htmlFor="cartValue" className="block text-sm font-medium leading-6 text-gray-900">
           Cart value
         </label>
@@ -135,18 +135,18 @@ const DeliveryCalculator = () => {
             type="text"
             id="cartValue"
             data-test-id="cartValue"
-            className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6"
             onChange={handleCartValueInputChange}
             value={cartValue}
             placeholder="0.00"
           />
           <div className="absolute inset-y-0 right-0 flex items-center">
-            <span className="text-gray-500 mr-2 sm:text-sm">EUR</span>
+            <span className="text-gray-500 mr-2 text-sm">EUR</span>
           </div>
         </div>
       </div>
       
-      <div className='mt-5 ml-12'>
+      <div className='mt-5  ml-12 max-sm:mt-3 max-sm:ml-6 max-sm:mr-6'>
         <label htmlFor="deliveryDistance" className="block text-sm font-medium leading-6 text-gray-900">
           Delivery distance
         </label>
@@ -155,18 +155,18 @@ const DeliveryCalculator = () => {
             type="text"
             id="deliveryDistance"
             data-test-id="deliveryDistance"
-            className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6"
             onChange={handleDistanceChange}
             value={deliveryDistance}
             placeholder="0"
           />
           <div className="absolute inset-y-0 right-0 flex items-center">
-            <span className="text-gray-500 mr-2 sm:text-sm">meters</span>
+            <span className="text-gray-500 mr-2 text-sm">meters</span>
           </div>
         </div>
       </div>
       
-      <div className='mt-5 ml-12'>
+      <div className='mt-5  ml-12 max-sm:mt-3 max-sm:ml-6 max-sm:mr-6'>
         <label htmlFor="numberOfItems" className="block text-sm font-medium leading-6 text-gray-900">
           Number of items
         </label>
@@ -175,7 +175,7 @@ const DeliveryCalculator = () => {
             type="text"
             id="numberOfItems"
             data-test-id="numberOfItems"
-            className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6"
             onChange={handleNumberOfItems}
             value={numberOfItems}
             placeholder="0"
@@ -183,7 +183,7 @@ const DeliveryCalculator = () => {
         </div>
       </div>
       
-      <div className='mt-5 ml-12'>
+      <div className='mt-5  ml-12 max-sm:mt-3 max-sm:ml-6 max-sm:mr-6'>
         <label htmlFor="orderTime" className="block text-sm font-medium leading-6 text-gray-900">
           Time
         </label>
@@ -193,13 +193,13 @@ const DeliveryCalculator = () => {
             id="orderTime"
             data-test-id="orderTime"
             onChange={handleOrderTimeChange}
-            className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 py-1.5 pl-7 pr-16 max-sm:pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6"
           />
         </div>
       </div>
 
       <button type="button" 
-        className="mt-14 ml-12 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="mt-14 ml-12 max-sm:mt-5 max-sm:ml-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         onClick={buttonHandler}>
         <svg className="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 640 512">
           {/* Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. */}
@@ -208,12 +208,12 @@ const DeliveryCalculator = () => {
         Calculate delivery
       </button>
 
-      <div className='w-full h-16 mt-8 pl-12 bg-blue-600 flex items-center'>
-        <h2 className='text-xl font-semibold text-white'>Delivery cost:</h2>
+      <div className='w-full h-16 mt-8 pl-12 max-sm:pl-6 bg-blue-600 flex items-center'>
+        <h2 className='text-xl font-semibold max-sm:text-base text-white'>Delivery cost:</h2>
         <div
           data-test-id="fee" 
-          className='ml-2 w-20 h-9 bg-zinc-100 rounded-md flex justify-center items-center text-xl font-semibold'>{deliveryCost?.toFixed(2)}</div>
-        <div className='ml-2 text-xl text-white'>EUR</div>
+          className='ml-2 w-20 h-9 bg-zinc-100 rounded-md flex justify-center items-center text-xl max-sm:text-lg font-semibold'>{deliveryCost?.toFixed(2)}</div>
+        <div className='ml-2 text-xl max-sm:text-base text-white'>EUR</div>
       </div>
       
     </div>

@@ -3,7 +3,7 @@ import DeliveryCalculator from './DeliveryCalculator';
 
 function App() {
   return (
-    <div className="bg-sky-400 w-screen h-screen flex flex-col justify-start items-center">
+    <div className="bg-sky-400 w-screen min-h-[100vh] flex flex-col justify-start items-center">
       <div className='w-full flex justify-start'>
         <div className='ml-10 mt-10 w-40'>
           <img src="./assets/wolt.png" alt="wolt logo" />

@@ -122,7 +122,7 @@ const DeliveryCalculator = () => {
   }, [cartValue, deliveryDistance, numberOfItems, orderTime])
 
   return (
-    <div className='w-[270px] h-[500px] sm:w-[400px] sm:h-[600px] border-4 border-zinc-100 rounded-lg flex flex-col justify-center items-start'>
+    <div className='w-[270px] h-[500px] sm:w-[400px] mt-6 mb-6 sm:h-[600px] border-4 border-zinc-100 rounded-lg flex flex-col justify-center items-start'>
       <div className='ml-12 max-sm:ml-6 max-sm:mr-6'>
         <label htmlFor="cartValue" className="block text-sm font-medium leading-6 text-gray-900">
           Cart value

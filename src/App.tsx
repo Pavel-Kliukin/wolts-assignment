@@ -9,7 +9,7 @@ function App() {
           <img src="./assets/wolt.png" alt="wolt logo" />
         </div>
       </div>
-      <div className='flex-1 flex justify-center items-center'>
+      <div className='mt-20 mb-[500px] flex-1 flex justify-center items-start'>
         <DeliveryCalculator />
       </div>
     </div>

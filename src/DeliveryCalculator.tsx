@@ -6,8 +6,29 @@ const DeliveryCalculator = () => {
   const [deliveryDistance, setDeliveryDistance] = useState<string>('');
   const [numberOfItems, setNumberOfItems] = useState<string>('');
   const [orderTime, setOrderTime] = useState<Date>(new Date());
-  const [deliveryCost, setDeliveryCost] = useState<number | null>(0);
+  const [deliveryCost, setDeliveryCost] = useState<number>(0);
+
+  //Variables for the receipt that will slide down after clicking the button
   const slidingReceipt: HTMLDivElement | null = document.getElementById('slidingReceipt') as HTMLDivElement;
+  const [cartValuePart, setCartValuePart] = useState<number>(0);
+  const [deliveryDistancePart, setDeliveryDistancePart] = useState<number>(2);
+  const [numberOfItemsPart, setNumberOfItemsPart] = useState<number>(0);
+  const [orderTimePart, setOrderTimePart] = useState<number>(0);
+  const [discountPart, setDiscountPart] = useState<number | null>(null);
+  const todayDate: Date = new Date();
+  const formatDate = (date: Date): string => {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-based
+    const year = String(date.getFullYear());
+    return `${day}.${month}.${year}`;
+  };
+  const formattedTodayDate: string = formatDate(todayDate);
+  const formatTime = (date: Date): string => {
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+  const currentTime: string = formatTime(todayDate);
 
 
   const handleCartValueInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,55 +101,75 @@ const DeliveryCalculator = () => {
 
     // Add delivery cost based on cart value
     if (Number(cartValue) < 10) {
-      newDeliveryCost = 10 - Number(cartValue);
+      setCartValuePart (10 - Number(cartValue));
+      newDeliveryCost += 10 - Number(cartValue)
+      console.log("cart: ", newDeliveryCost);
+      
     }
 
     // Add delivery cost based on distance
     const distance: number = Number(deliveryDistance);
     newDeliveryCost += 2
     if (distance > 1000) {
+      setDeliveryDistancePart(2 + 1 * Math.ceil((distance - 1000) / 500))
       newDeliveryCost += 1 * Math.ceil((distance - 1000) / 500);
     }
+    console.log("distance: ", newDeliveryCost);
 
     // Add delivery cost based on number of items
     const items: number = Number(numberOfItems);
     if ( items > 4) {
+      setNumberOfItemsPart((items - 4) * 0.50);
       newDeliveryCost += (items - 4) * 0.50;
     }
     if ( items > 12) {
+      setNumberOfItemsPart((items - 4) * 0.50 + 1.2)
       newDeliveryCost += 1.20;
     }
+    console.log("items: ", newDeliveryCost);
+    
 
     // Add delivery cost based on order time
     if (orderTime.getDay() === 5 && orderTime.getHours() >= 15 && orderTime.getHours() < 19) {
+      setOrderTimePart(0.2 * newDeliveryCost);
       newDeliveryCost *= 1.2;
     }
+    console.log("time: ", newDeliveryCost);
+    
 
     // Correct the delivery cost based on other confitions
-    if (newDeliveryCost > 15) {
+    if (newDeliveryCost > 15 && Number(cartValue) < 200) {
+      setDiscountPart(newDeliveryCost - 15);
       newDeliveryCost = 15;
     }
     if (Number(cartValue) >= 200) {
+      setDiscountPart(newDeliveryCost);
       newDeliveryCost = 0;
     }
+    console.log("corrected: ", newDeliveryCost);
+    
 
     setDeliveryCost(newDeliveryCost);
 
     // Slide down the receipt
     if (slidingReceipt) {
-      slidingReceipt.classList.add('translate-y-[280px]');
+      slidingReceipt.classList.add('translate-y-[400px]');
     }
 
   }
 
   useEffect(() => {
-    
-    // Reset delivery cost to null when any of the input values change
-    setDeliveryCost(null)
+
+    // Reset delivery cost and all receipt's variables to null when any of the input values change
+    setDeliveryCost(0);
+    setCartValuePart(0);
+    setDeliveryDistancePart(2);
+    setNumberOfItemsPart(0);
+    setOrderTimePart(0);
 
     // Slide up the receipt
     if (slidingReceipt) {
-      slidingReceipt.classList.remove('translate-y-[280px]');
+      slidingReceipt.classList.remove('translate-y-[400px]');
     }
     
   }, [cartValue, deliveryDistance, numberOfItems, orderTime, slidingReceipt])
@@ -229,8 +270,51 @@ const DeliveryCalculator = () => {
         <div className='relative w-[80%] flex flex-col items-start'>
           <div 
             id='slidingReceipt'
-            className='absolute z-10 inset-x-[5%] bottom-[-20px] w-[90%] h-[300px] bg-gray-100 transition-all'>
-              <div className='font-receipt'>total</div>
+            className='absolute z-10 inset-x-[5%] bottom-[-20px] w-[90%] h-[420px] bg-white border-slate-500 border-b-2 border-dotted transition-all p-4 flex flex-col'>
+              <div className='font-receipt'>
+                <div className='w-[30%]'>
+                  <img className='opacity-70' src="./assets/wolt-black.png" alt="wolt logo" />
+                </div>
+                <div className='w-full mt-4 text-center text-xl'>DELIVERY FEE</div>
+                <div className='w-full mt-1 text-right'>EUR</div>
+                <div className='w-full text-right'>
+                  <span className=''>'Cart value' part</span>
+                  <span className='ml-6'>{cartValuePart.toFixed(2)}</span>
+                </div>
+                <div className='w-full text-right'>
+                  <span className=''>'Distance' part</span>
+                  <span className='ml-6'>{deliveryDistancePart.toFixed(2)}</span>
+                </div>
+                <div className='w-full text-right'>
+                  <span className=''>'Items amount' part</span>
+                  <span className='ml-6'>{numberOfItemsPart.toFixed(2)}</span>
+                </div>
+                <div className='w-full text-right'>
+                  <span className=''>'Rush hour' part</span>
+                  <span className='ml-6'>{orderTimePart.toFixed(2)}</span>
+                </div>
+                {discountPart &&
+                  <div className='w-full text-right'>
+                    <span className=''>Discount for delivery</span>
+                    <span className='ml-6'>{discountPart.toFixed(2)}</span>
+                  </div>
+                }
+                <div className='mt-2 w-full text-right'>========</div>
+                <div className='w-full flex text-xl'>
+                  <div className='w-full ml-3 text-left'>TOTAL:</div>
+                  <div 
+                    data-test-id="fee" 
+                    className='w-full text-right'>{deliveryCost.toFixed(2)}</div>
+                </div>
+                <div className='w-full text-right'>========</div>
+                <div className='mt-4 w-full flex justify-center'>
+                  <img src="./assets/barcode.jpg" alt="barcode" className='w-[70%] h-[50px]' />
+                </div>
+                <div className='mt-4 w-full flex justify-between'>
+                  <div className='text-left'>{formattedTodayDate}</div>
+                  <div className='text-right'>{currentTime}</div>
+                </div>
+              </div>
             </div>
         </div>
         <div className='w-[80%] h-1.5 bg-black border-2 border-t-0 rounded-b-md border-inherit'></div>

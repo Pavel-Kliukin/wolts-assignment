@@ -153,7 +153,8 @@ const DeliveryCalculator = () => {
 
     // Slide down the receipt
     if (slidingReceipt) {
-      slidingReceipt.classList.add('translate-y-[400px]');
+      slidingReceipt.classList.add('translate-y-[420px]');
+      slidingReceipt.classList.add('max-sm:translate-y-[340px]');
     }
 
   }
@@ -166,10 +167,12 @@ const DeliveryCalculator = () => {
     setDeliveryDistancePart(2);
     setNumberOfItemsPart(0);
     setOrderTimePart(0);
+    setDiscountPart(null);
 
     // Slide up the receipt
     if (slidingReceipt) {
-      slidingReceipt.classList.remove('translate-y-[400px]');
+      slidingReceipt.classList.remove('translate-y-[420px]');
+      slidingReceipt.classList.remove('max-sm:translate-y-[340px]');
     }
     
   }, [cartValue, deliveryDistance, numberOfItems, orderTime, slidingReceipt])
@@ -200,7 +203,7 @@ const DeliveryCalculator = () => {
           </div>
         </div>
         
-        <div className='mt-5  ml-12 max-sm:mt-3 max-sm:ml-6 max-sm:mr-6'>
+        <div className='mt-5 ml-12 max-sm:mt-3 max-sm:ml-6 max-sm:mr-6'>
           <label htmlFor="deliveryDistance" className="block text-sm font-medium leading-6 text-gray-900">
             Delivery distance
           </label>
@@ -220,7 +223,7 @@ const DeliveryCalculator = () => {
           </div>
         </div>
         
-        <div className='mt-5  ml-12 max-sm:mt-3 max-sm:ml-6 max-sm:mr-6'>
+        <div className='mt-5 ml-12 max-sm:mt-3 max-sm:ml-6 max-sm:mr-6'>
           <label htmlFor="numberOfItems" className="block text-sm font-medium leading-6 text-gray-900">
             Number of items
           </label>
@@ -237,7 +240,7 @@ const DeliveryCalculator = () => {
           </div>
         </div>
         
-        <div className='mt-5  ml-12 max-sm:mt-3 max-sm:ml-6 max-sm:mr-6'>
+        <div className='mt-5 ml-12 max-sm:mt-3 max-sm:ml-6 max-sm:mr-6'>
           <label htmlFor="orderTime" className="block text-sm font-medium leading-6 text-gray-900">
             Time
           </label>
@@ -253,7 +256,7 @@ const DeliveryCalculator = () => {
         </div>
 
         <button type="button" 
-          className="mt-14 ml-12 max-sm:mt-5 max-sm:ml-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="mt-14 ml-12 max-sm:mt-7 max-sm:ml-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           onClick={buttonHandler}>
           <svg className="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 640 512">
             {/* Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. */}
@@ -270,47 +273,49 @@ const DeliveryCalculator = () => {
         <div className='relative w-[80%] flex flex-col items-start'>
           <div 
             id='slidingReceipt'
-            className='absolute z-10 inset-x-[5%] bottom-[-20px] w-[90%] h-[420px] bg-white border-slate-500 border-b-2 border-dotted transition-all p-4 flex flex-col'>
-              <div className='font-receipt'>
-                <div className='w-[30%]'>
-                  <img className='opacity-70' src="./assets/wolt-black.png" alt="wolt logo" />
+            className='absolute z-10 inset-x-[5%] bottom-[-20px] w-[90%] h-[440px] max-sm:h-[360px] font-receipt bg-white border-slate-500 border-b-2 border-dotted transition-all duration-700 p-4 max-sm:p-2 max-sm:py-4 flex flex-col justify-between'>
+              <div className='w-full flex justify-center'>
+                <img className='w-[30%] opacity-70' src="./assets/wolt-black.png" alt="wolt logo" />
+              </div>
+              <div className='w-full mt-4 text-center text-xl max-sm:text-base'>DELIVERY FEE</div>
+              <div>
+                <div className='w-full mt-1 text-right max-sm:text-sm'>EUR</div>
+                <div className='w-full flex justify-end'>
+                  <span className='flex-1 text-left max-sm:text-xs'>'Cart value' part</span>
+                  <span className='w-[70px] text-right max-sm:text-xs max-sm:w-[40px]'>{cartValuePart.toFixed(2)}</span>
                 </div>
-                <div className='w-full mt-4 text-center text-xl'>DELIVERY FEE</div>
-                <div className='w-full mt-1 text-right'>EUR</div>
-                <div className='w-full text-right'>
-                  <span className=''>'Cart value' part</span>
-                  <span className='ml-6'>{cartValuePart.toFixed(2)}</span>
+                <div className='w-full flex justify-end'>
+                  <span className='flex-1 text-left max-sm:text-xs'>'Distance' part</span>
+                  <span className='w-[70px] text-right max-sm:text-xs max-sm:w-[40px]'>{deliveryDistancePart.toFixed(2)}</span>
                 </div>
-                <div className='w-full text-right'>
-                  <span className=''>'Distance' part</span>
-                  <span className='ml-6'>{deliveryDistancePart.toFixed(2)}</span>
+                <div className='w-full flex justify-end'>
+                  <span className='flex-1 text-left max-sm:text-xs'>'Items' part</span>
+                  <span className='w-[70px] text-right max-sm:text-xs max-sm:w-[40px]'>{numberOfItemsPart.toFixed(2)}</span>
                 </div>
-                <div className='w-full text-right'>
-                  <span className=''>'Items amount' part</span>
-                  <span className='ml-6'>{numberOfItemsPart.toFixed(2)}</span>
-                </div>
-                <div className='w-full text-right'>
-                  <span className=''>'Rush hour' part</span>
-                  <span className='ml-6'>{orderTimePart.toFixed(2)}</span>
+                <div className='w-full flex justify-end'>
+                  <span className='flex-1 text-left max-sm:text-xs'>'Rush hour' part</span>
+                  <span className='w-[70px] text-right max-sm:text-xs max-sm:w-[40px]'>{orderTimePart.toFixed(2)}</span>
                 </div>
                 {discountPart &&
-                  <div className='w-full text-right'>
-                    <span className=''>Discount for delivery</span>
-                    <span className='ml-6'>{discountPart.toFixed(2)}</span>
+                  <div className='w-full flex justify-end'>
+                    <span className='flex-1 text-right max-sm:text-xs'>Discount</span>
+                    <span className='w-[70px] text-right max-sm:text-xs max-sm:w-[50px]'>-{discountPart.toFixed(2)}</span>
                   </div>
                 }
-                <div className='mt-2 w-full text-right'>========</div>
-                <div className='w-full flex text-xl'>
+              </div>
+              <div>
+                <div className='mt-2 w-full text-right max-sm:text-sm'>========</div>
+                <div className='w-full flex text-xl max-sm:text-lg'>
                   <div className='w-full ml-3 text-left'>TOTAL:</div>
                   <div 
                     data-test-id="fee" 
                     className='w-full text-right'>{deliveryCost.toFixed(2)}</div>
                 </div>
-                <div className='w-full text-right'>========</div>
+                <div className='w-full text-right max-sm:text-sm'>========</div>
                 <div className='mt-4 w-full flex justify-center'>
-                  <img src="./assets/barcode.jpg" alt="barcode" className='w-[70%] h-[50px]' />
+                  <img src="./assets/barcode.jpg" alt="barcode" className='w-[70%] h-[50px] max-sm:h-[35px]' />
                 </div>
-                <div className='mt-4 w-full flex justify-between'>
+                <div className='mt-4 w-full flex justify-between max-sm:text-sm'>
                   <div className='text-left'>{formattedTodayDate}</div>
                   <div className='text-right'>{currentTime}</div>
                 </div>

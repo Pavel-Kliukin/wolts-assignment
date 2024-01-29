@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'OmnesLatin-SemiBold';
+  src: url('../public/fonts/OmnesLatin-SemiBold.woff2') format('woff2');
+  /* Add other font formats if needed */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OmnesLatin-Bold';
+  src: url('../public/fonts/OmnesLatin-Bold.woff2') format('woff2');
+  /* Add other font formats if needed */
+  font-weight: bold;
+  font-style: normal;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

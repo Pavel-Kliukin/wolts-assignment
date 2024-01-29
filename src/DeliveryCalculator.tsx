@@ -2,19 +2,21 @@ import { useState, useEffect } from 'react';
 
 const DeliveryCalculator = () => {
 
+  // VARIABLES FOR THE INPUTS AND THE TOTAL DELIVERY COST
   const [cartValue, setCartValue] = useState<string>('');
   const [deliveryDistance, setDeliveryDistance] = useState<string>('');
   const [numberOfItems, setNumberOfItems] = useState<string>('');
   const [orderTime, setOrderTime] = useState<Date>(new Date());
   const [deliveryCost, setDeliveryCost] = useState<number>(0);
 
-  //Variables for the receipt that will slide down after clicking the button
+  // VARIABLES FOR THE RECEIPT THAT WILL BE SLIDING DOWN WHEN THE BUTTON IS CLICKED 
   const slidingReceipt: HTMLDivElement | null = document.getElementById('slidingReceipt') as HTMLDivElement;
   const [cartValuePart, setCartValuePart] = useState<number>(0);
   const [deliveryDistancePart, setDeliveryDistancePart] = useState<number>(2);
   const [numberOfItemsPart, setNumberOfItemsPart] = useState<number>(0);
   const [orderTimePart, setOrderTimePart] = useState<number>(0);
   const [discountPart, setDiscountPart] = useState<number | null>(null);
+  // Current date for the receipt and it's formatting
   const todayDate: Date = new Date();
   const formatDate = (date: Date): string => {
     const day = String(date.getDate()).padStart(2, '0');
@@ -22,6 +24,7 @@ const DeliveryCalculator = () => {
     const year = String(date.getFullYear());
     return `${day}.${month}.${year}`;
   };
+  // Current time for the receipt and it's formatting
   const formattedTodayDate: string = formatDate(todayDate);
   const formatTime = (date: Date): string => {
     const hours = String(date.getHours()).padStart(2, '0');
@@ -30,6 +33,8 @@ const DeliveryCalculator = () => {
   };
   const currentTime: string = formatTime(todayDate);
 
+
+  // HANDLERS FOR THE INPUTS AND THE BUTTON
 
   const handleCartValueInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let newValue: string = event.target.value;
@@ -97,15 +102,16 @@ const DeliveryCalculator = () => {
 
   const buttonHandler = () => {
 
+    // CALCULATION OF THE DELIVERY COST
+    
     let newDeliveryCost: number = 0;
 
     // Add delivery cost based on cart value
     if (Number(cartValue) < 10) {
       setCartValuePart (10 - Number(cartValue));
       newDeliveryCost += 10 - Number(cartValue)
-      console.log("cart: ", newDeliveryCost);
-      
     }
+    console.log("cart: ", newDeliveryCost);
 
     // Add delivery cost based on distance
     const distance: number = Number(deliveryDistance);
@@ -180,6 +186,8 @@ const DeliveryCalculator = () => {
   return (
     <div className='w-[270px] h-[500px] sm:w-[400px] mt-6 mb-6 sm:h-[600px] border-4 border-zinc-100 rounded-lg flex flex-col justify-center items-start'>
       <div className='z-20 w-full bg-sky-400 flex flex-col justify-center items-start'>
+        
+        {/* CART VALUE INPUT */}
         <div className='ml-12 max-sm:ml-6 max-sm:mr-6'>
           <label htmlFor="cartValue" className="block text-sm font-medium leading-6 text-gray-900">
             Cart value
@@ -203,6 +211,7 @@ const DeliveryCalculator = () => {
           </div>
         </div>
         
+        {/* DELIVERY DISTANCE INPUT */}
         <div className='mt-5 ml-12 max-sm:mt-3 max-sm:ml-6 max-sm:mr-6'>
           <label htmlFor="deliveryDistance" className="block text-sm font-medium leading-6 text-gray-900">
             Delivery distance
@@ -223,6 +232,7 @@ const DeliveryCalculator = () => {
           </div>
         </div>
         
+        {/* ITEMS AMOUNT INPUT */}
         <div className='mt-5 ml-12 max-sm:mt-3 max-sm:ml-6 max-sm:mr-6'>
           <label htmlFor="numberOfItems" className="block text-sm font-medium leading-6 text-gray-900">
             Number of items
@@ -240,6 +250,7 @@ const DeliveryCalculator = () => {
           </div>
         </div>
         
+        {/* DELIVERY DATE AND TIME INPUT */}
         <div className='mt-5 ml-12 max-sm:mt-3 max-sm:ml-6 max-sm:mr-6'>
           <label htmlFor="orderTime" className="block text-sm font-medium leading-6 text-gray-900">
             Time
@@ -254,7 +265,8 @@ const DeliveryCalculator = () => {
             />
           </div>
         </div>
-
+        
+        {/* CALCULATE BUTTON */}
         <button type="button" 
           className="mt-14 ml-12 max-sm:mt-7 max-sm:ml-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           onClick={buttonHandler}>
@@ -268,7 +280,8 @@ const DeliveryCalculator = () => {
           <div className='w-[80%] h-1.5 bg-black border-2 border-b-0 rounded-t-md border-inherit'></div>
         </div>
       </div>
-
+      
+      {/* SLIDING RECEIPT */}
       <div className='w-full h-[10%] flex flex-col items-center'>
         <div className='relative w-[80%] flex flex-col items-start'>
           <div 
@@ -324,14 +337,6 @@ const DeliveryCalculator = () => {
         </div>
         <div className='w-[80%] h-1.5 bg-black border-2 border-t-0 rounded-b-md border-inherit'></div>
       </div>
-
-      {/* <div className='w-full h-16 mt-8 pl-12 max-sm:pl-6 bg-blue-600 flex items-center'>
-        <h2 className='text-xl font-semibold max-sm:text-base text-white'>Delivery cost:</h2>
-        <div
-          data-test-id="fee" 
-          className='ml-2 w-20 h-9 bg-zinc-100 rounded-md flex justify-center items-center text-xl max-sm:text-lg font-semibold'>{deliveryCost?.toFixed(2)}</div>
-        <div className='ml-2 text-xl max-sm:text-base text-white'>EUR</div>
-      </div> */}
       
     </div>
   );

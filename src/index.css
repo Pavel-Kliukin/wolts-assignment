@@ -3,9 +3,22 @@
 @tailwind utilities;
 
 @font-face {
+  font-family: 'Omnes-Light';
+  src: url('../public/fonts/Omnes-Light.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Omnes-Regular';
+  src: url('../public/fonts/Omnes-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: 'OmnesLatin-SemiBold';
   src: url('../public/fonts/OmnesLatin-SemiBold.woff2') format('woff2');
-  /* Add other font formats if needed */
   font-weight: normal;
   font-style: normal;
 }
@@ -13,8 +26,7 @@
 @font-face {
   font-family: 'OmnesLatin-Bold';
   src: url('../public/fonts/OmnesLatin-Bold.woff2') format('woff2');
-  /* Add other font formats if needed */
-  font-weight: bold;
+  font-weight: normal;
   font-style: normal;
 }
 

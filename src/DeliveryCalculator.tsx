@@ -137,7 +137,7 @@ const DeliveryCalculator = () => {
       newDeliveryCost *= 1.2;
     }
     
-    // Correct the delivery cost based on other confitions
+    // Correct the delivery cost based on other conditions
     if (newDeliveryCost > 15 && Number(cartValue) < 200) {
       setDiscountPart(newDeliveryCost - 15);
       newDeliveryCost = 15;
@@ -202,7 +202,7 @@ const DeliveryCalculator = () => {
                   onChange={handleCartValueInputChange}
                   value={cartValue}
                   placeholder="0.00"
-                  className="block w-[200px] rounded-3xl border-0 py-1.5 pl-7 pr-7 max-sm:pr-4 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6"
+                  className="block w-[200px] rounded-3xl border-0 py-1.5 pl-7 pr-7 max-sm:pr-4 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 text-sm leading-8"
                 />
               </div>
             </div>
@@ -222,7 +222,7 @@ const DeliveryCalculator = () => {
                   onChange={handleDistanceChange}
                   value={deliveryDistance}
                   placeholder="0"
-                  className="block w-[200px] rounded-3xl border-0 py-1.5 pl-7 pr-7 max-sm:pr-4 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6"
+                  className="block w-[200px] rounded-3xl border-0 py-1.5 pl-7 pr-7 max-sm:pr-4 text-gray-700 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 text-sm leading-8"
                 />
                 <div className="absolute inset-y-0 left-[140px] flex items-center">
                   <span className="text-gray-400 mr-2 text-sm">meters</span>
@@ -244,7 +244,7 @@ const DeliveryCalculator = () => {
                 onChange={handleNumberOfItems}
                 value={numberOfItems}
                 placeholder="0"
-                className="block mt-2 w-[200px] rounded-3xl border-0 py-1.5 pl-7 pr-7 max-sm:pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6"
+                className="block mt-2 w-[200px] rounded-3xl border-0 py-1.5 pl-7 pr-7 max-sm:pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 text-sm leading-8"
               />
             </div>
           </div>
@@ -260,7 +260,7 @@ const DeliveryCalculator = () => {
                 id="orderTime"
                 data-test-id="orderTime"
                 onChange={handleOrderTimeChange}
-                className="block mt-2 w-[200px] rounded-3xl border-0 py-1.5 pl-7 pr-7 max-sm:pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm leading-6"
+                className="block mt-2 w-[200px] h-[44px] rounded-3xl border-0 py-1.5 pl-7 pr-7 max-sm:pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 text-sm leading-8"
               />
             </div>
           </div>
@@ -268,7 +268,7 @@ const DeliveryCalculator = () => {
         
         {/* CALCULATE BUTTON */}
         <button type="button" 
-          className="mt-14 max-sm:mt-10 w-[200px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 text-base font-wolt_Regular rounded-3xl px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="mt-14 max-sm:mt-10 w-[200px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 text-base font-wolt_Regular rounded-3xl px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           onClick={buttonHandler}>
           <svg className="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 640 512">
             {/* Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. */}
@@ -340,7 +340,7 @@ const DeliveryCalculator = () => {
             </div>
           </div>
         {/* LOWER PART OF RECEIPT HOLE */}
-        <div className='w-[80%] max-w-[300px] h-1.5 mb-[400px] bg-black border-2 border-t-0 rounded-b-md border-inherit'></div>
+        <div className='w-[80%] max-w-[300px] h-1.5 mb-[500px] max-sm:mb-[400px] bg-black border-2 border-t-0 rounded-b-md border-inherit'></div>
       </div> 
 
     </div>

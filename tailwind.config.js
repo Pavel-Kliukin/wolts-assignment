@@ -9,7 +9,17 @@ module.exports = {
       'wolt_Light': ['Omnes-Light', 'ui-serif', 'Georgia'],
       'wolt_Regular': ['Omnes-Regular', 'ui-serif', 'Georgia'],
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        gradient: {
+          '0%': { backgroundPosition: '50% 100%' },
+          '100%': { backgroundPosition: '50% 0%' },
+        },
+      },
+      animation: {
+        gradient: 'gradient 6s infinite',
+      },
+    },
   },
   plugins: [],
 }
